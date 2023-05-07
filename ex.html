@@ -1,0 +1,214 @@
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style>
+        *
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body, .cadre
+{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.cadre
+{
+  background-image: url("https://www.vocowallpaper.com/wallpapers/26/Dark%2C+blue%2C+background%2C+iOS+13--w26532--preview.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-image 0.6s;
+  
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.title
+{
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.5em;
+  font-weight: 600;
+  padding: 15px 20px;
+  background-color: rgba(0, 0, 0, 0.54);
+  border-radius: 8px;
+  color: #e8e8e8;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.54);
+  max-width: 90%;
+}
+.context-menu
+{
+  border-radius: 8px;
+  width: 150px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.54);
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.54);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  /* that's for the pen : */
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+    
+  /* 
+  but normally it's just :
+  display: none;
+  */
+}
+.btn
+{
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  height: 50px;
+  font-size: 1.1em;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.004em;
+  color: #e8e8e8;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  padding: 0 10px;
+}
+.btn div
+{
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transition: background-color 0.15s;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+.btn:hover div
+{
+  background-color: rgba(147, 147, 147, 0.31);
+}
+#blue
+{
+  margin : 10px 0;
+}
+#green
+{
+  margin : 10px 0;
+}
+.browser-info
+{
+  font-family: "Quicksand", sans-serif;
+  background-color: rgba(0, 0, 0, 0.54);
+  border-radius: 8px;
+  color: #e8e8e8;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.54);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 850px;
+  max-width: 90%;
+  display: none;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+}
+.browser-info h1
+{
+  font-size: 1.3em;
+  padding: 20px;
+  font-weight: 600;
+}
+.browser-info p
+{
+  font-size: 1.1em;
+  padding: 0 35px 20px 35px;
+  font-weight: 400;
+}
+
+/* I want these words to stay on the same line. */
+.nowrap
+{
+  white-space: nowrap;
+}
+    </style>
+  </head>
+  <body>
+    <div class="cadre">
+      <p class="title">You can right click anywhere to change the background.</p>
+    </div>
+    
+    <div class="context-menu">
+      <button class="btn" id="blue" onClick="changeBackground(id)"><div>Blue</div></button>
+      <button class="btn" id="orange" onClick="changeBackground(id)"><div>Orange</div></button>
+      <button class="btn" id="green" onClick="changeBackground(id)"><div>Green</div></button>
+    </div>
+    
+    <div class="browser-info" id="firefox" >
+      <h1>This website is going to look better if you turn on the <span class="nowrap">backdrop-filter</span> property :</h1>
+      <p>
+        -In the address bar, type "about:config".<br>
+        -Click on "Accept the risk and continue".<br>
+        -Type <span class="nowrap">"backdrop-filter"</span> in the search bar.<br>
+        -If it's written "false", double click on it to turn it on.
+      </p>
+    </div>
+    <div class="browser-info" id="IE">
+      <h1>This website is going to look better on Google Chrome, Firefox or Edge. Open this page on one of them if you can.</h1>
+    </div>
+    <div class="browser-info" id="mobile"><h1>This website is going to look better on Google Chrome.</h1></div>
+    <script>
+        const menu = document.querySelector(".context-menu");
+        const cadre = document.querySelector(".cadre");
+
+        // Context menu
+        cadre.addEventListener("contextmenu", function(e){
+        e.preventDefault();
+        
+        // Show the context menu
+        menu.style.display = "block";
+        
+        // just for the pen :
+        menu.style.transform = "translate(0)";
+        
+        // set position X of the menu
+        if ((window.innerWidth - e.clientX) > menu.offsetWidth + 10){
+            menu.style.left = e.clientX + "px";
+        }
+        else
+        {
+            menu.style.left = (e.clientX - menu.offsetWidth) + "px";
+        }
+        // set position Y of the menu
+        if ((window.innerHeight - e.clientY) > menu.offsetHeight + 10){
+            menu.style.top = e.clientY + "px";
+        }
+        else
+        {
+            menu.style.top = (e.clientY - menu.offsetHeight) + "px";
+        }
+        })
+        //exit the context menu
+        window.addEventListener("click", function(){
+        menu.style.display = "none";
+        })
+
+        cadre.addEventListener("click", function(){
+        IE.style.display = "none";
+        firefox.style.display = "none";
+        mobile.style.display = "none";
+        cadre.style.cursor = "default";
+        })
+    </script>
+  </body>
+</html>
